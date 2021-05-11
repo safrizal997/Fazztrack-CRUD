@@ -21,13 +21,6 @@ app.get('/', (req, res) => {
 
 });
 
-app.post('/delete/:id', (req, res) => {
-    connection.query(
-        'delete from produk where id=?', [req.params.id],
-        (err, result) => {
-            res.redirect('/');
-        });
-});
 
 app.post('/insert', (req, res) => {
     const request = req.body;
@@ -54,19 +47,22 @@ app.get('/edit/:id', (req, res) => {
 app.post('/update/:id', (req, res) => {
     const request = req.body;
     connection.query(
-      'update produk set nama_produk = ?, keterangan = ?, harga = ?, jumlah = ? where id = ?',
-      [request.namaProduk, request.keterangan, request.harga, request.jumlah, req.params.id],
-      (error, results)=>{
-        res.redirect('/');
+        'update produk set nama_produk = ?, keterangan = ?, harga = ?, jumlah = ? where id = ?',
+        [request.namaProduk, request.keterangan, request.harga, request.jumlah, req.params.id],
+        (error, results)=>{
+            res.redirect('/');
     });
 });
-
-
-app.get('/top', (req, res) => {
-    res.render('top.ejs')
-})
-
+    
+app.post('/delete/:id', (req, res) => {
+        connection.query(
+            'delete from produk where id=?', [req.params.id],
+            (err, result) => {
+                res.redirect('/');
+        });
+});    
+    
 const port = 3000;
-app.listen(port, () => {
+    app.listen(port, () => {
     console.log(`server listening on port: ${port}`);
 })
